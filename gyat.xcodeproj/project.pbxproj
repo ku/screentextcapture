@@ -11,6 +11,7 @@
 		88CF0A8322465E3600CA6CFC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88CF0A8222465E3600CA6CFC /* Assets.xcassets */; };
 		88CF0A8622465E3600CA6CFC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88CF0A8422465E3600CA6CFC /* MainMenu.xib */; };
 		88CF0A9222465E3700CA6CFC /* gyatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CF0A9122465E3700CA6CFC /* gyatTests.swift */; };
+		88CF0A9D2246701900CA6CFC /* main.rb in Resources */ = {isa = PBXBuildFile; fileRef = 88CF0A9C2246701900CA6CFC /* main.rb */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +34,7 @@
 		88CF0A8D22465E3700CA6CFC /* gyatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = gyatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		88CF0A9122465E3700CA6CFC /* gyatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gyatTests.swift; sourceTree = "<group>"; };
 		88CF0A9322465E3700CA6CFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		88CF0A9C2246701900CA6CFC /* main.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = main.rb; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				88CF0A8422465E3600CA6CFC /* MainMenu.xib */,
 				88CF0A8722465E3600CA6CFC /* Info.plist */,
 				88CF0A8822465E3600CA6CFC /* gyat.entitlements */,
+				88CF0A9C2246701900CA6CFC /* main.rb */,
 			);
 			path = gyat;
 			sourceTree = "<group>";
@@ -173,6 +176,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88CF0A9D2246701900CA6CFC /* main.rb in Resources */,
 				88CF0A8322465E3600CA6CFC /* Assets.xcassets in Resources */,
 				88CF0A8622465E3600CA6CFC /* MainMenu.xib in Resources */,
 			);
