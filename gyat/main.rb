@@ -17,10 +17,16 @@ class Main
     @logdir = '/tmp'
   end
 
+  def settings
+    rcfile = "#{ENV['HOME']}/.gyatrc"
+   File.exists?(rcfile) ? File.foreach(rcfile).each.map{|s| s.strip}.select{|s| !s.empty?}.map{|s| "--#{s}"}.join(" ") : ''
+  end
+
   def visionapi(filename)
     language_hints = 'ja,en'
+    options = settings
 
-    json = `/usr/local/bin/gcloud ml vision detect-text "#{ filename }" --language-hints="#{ language_hints }" `
+    json = `/usr/local/bin/gcloud ml vision detect-text #{options} "#{ filename }" --language-hints="#{ language_hints }" `
     File.write("#{@logdir}/json", json) if @debug
 
     return ExitStatus::GCLOUD_FAILED unless $?.exitstatus == 0
