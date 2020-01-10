@@ -13,7 +13,7 @@ end
 
 class Main
   def initialize
-    @debug = false
+    @debug = true
     @logdir = '/tmp'
   end
 
@@ -26,7 +26,17 @@ class Main
     language_hints = 'ja,en'
     options = settings
 
-    json = `/usr/local/bin/gcloud ml vision detect-text #{options} "#{ filename }" --language-hints="#{ language_hints }" `
+    json = nil
+    cmd =  "/usr/local/bin/gcloud ml vision detect-text #{options} '#{ filename }' --language-hints='#{ language_hints }'  --log-http "
+    IO.popen(cmd, "r+") {|io|
+      json = io.read
+      puts '---'
+      puts json
+      puts '---'
+    }
+
+
+    #json = `/usr/local/bin/gcloud ml vision detect-text #{options} "#{ filename }" --language-hints="#{ language_hints }" `
     File.write("#{@logdir}/json", json) if @debug
 
     return ExitStatus::GCLOUD_FAILED unless $?.exitstatus == 0

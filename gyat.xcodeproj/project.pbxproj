@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8808BCA823C86F7A00E65E64 /* CloudVision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8808BCA723C86F7A00E65E64 /* CloudVision.swift */; };
+		8808BCAA23C88FCC00E65E64 /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8808BCA923C88FCC00E65E64 /* MainWindow.swift */; };
 		88CF0A8122465E3500CA6CFC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CF0A8022465E3500CA6CFC /* AppDelegate.swift */; };
 		88CF0A8322465E3600CA6CFC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88CF0A8222465E3600CA6CFC /* Assets.xcassets */; };
 		88CF0A8622465E3600CA6CFC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88CF0A8422465E3600CA6CFC /* MainMenu.xib */; };
@@ -25,6 +27,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8808BCA723C86F7A00E65E64 /* CloudVision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudVision.swift; sourceTree = "<group>"; };
+		8808BCA923C88FCC00E65E64 /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
 		88CF0A7D22465E3500CA6CFC /* gyat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gyat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88CF0A8022465E3500CA6CFC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		88CF0A8222465E3600CA6CFC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -77,8 +81,10 @@
 			isa = PBXGroup;
 			children = (
 				88CF0A8022465E3500CA6CFC /* AppDelegate.swift */,
+				8808BCA723C86F7A00E65E64 /* CloudVision.swift */,
 				88CF0A8222465E3600CA6CFC /* Assets.xcassets */,
 				88CF0A8422465E3600CA6CFC /* MainMenu.xib */,
+				8808BCA923C88FCC00E65E64 /* MainWindow.swift */,
 				88CF0A8722465E3600CA6CFC /* Info.plist */,
 				88CF0A8822465E3600CA6CFC /* gyat.entitlements */,
 				88CF0A9C2246701900CA6CFC /* main.rb */,
@@ -197,6 +203,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				88CF0A8122465E3500CA6CFC /* AppDelegate.swift in Sources */,
+				8808BCAA23C88FCC00E65E64 /* MainWindow.swift in Sources */,
+				8808BCA823C86F7A00E65E64 /* CloudVision.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
