@@ -24,10 +24,4 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func application(_ sender: NSApplication, openFiles filenames: [String]) {
         NSApp.terminate(nil)
     }
-
-
- @IBAction func actionName(sender: AnyObject) {
-        print(1)
-    }
-
 }

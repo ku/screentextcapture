@@ -14,6 +14,7 @@
 		88CF0A8622465E3600CA6CFC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88CF0A8422465E3600CA6CFC /* MainMenu.xib */; };
 		88CF0A9222465E3700CA6CFC /* gyatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CF0A9122465E3700CA6CFC /* gyatTests.swift */; };
 		88CF0A9D2246701900CA6CFC /* main.rb in Resources */ = {isa = PBXBuildFile; fileRef = 88CF0A9C2246701900CA6CFC /* main.rb */; };
+		88E138FF23CC5CCF00CD20AB /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E138FE23CC5CCF00CD20AB /* Api.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +40,7 @@
 		88CF0A9122465E3700CA6CFC /* gyatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gyatTests.swift; sourceTree = "<group>"; };
 		88CF0A9322465E3700CA6CFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		88CF0A9C2246701900CA6CFC /* main.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = main.rb; sourceTree = "<group>"; };
+		88E138FE23CC5CCF00CD20AB /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,7 @@
 			children = (
 				88CF0A8022465E3500CA6CFC /* AppDelegate.swift */,
 				8808BCA723C86F7A00E65E64 /* CloudVision.swift */,
+				88E138FE23CC5CCF00CD20AB /* Api.swift */,
 				88CF0A8222465E3600CA6CFC /* Assets.xcassets */,
 				88CF0A8422465E3600CA6CFC /* MainMenu.xib */,
 				8808BCA923C88FCC00E65E64 /* MainWindow.swift */,
@@ -204,6 +207,7 @@
 			files = (
 				88CF0A8122465E3500CA6CFC /* AppDelegate.swift in Sources */,
 				8808BCAA23C88FCC00E65E64 /* MainWindow.swift in Sources */,
+				88E138FF23CC5CCF00CD20AB /* Api.swift in Sources */,
 				8808BCA823C86F7A00E65E64 /* CloudVision.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -365,6 +369,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = nu.ido.ku.gyat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -383,6 +388,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = nu.ido.ku.gyat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;

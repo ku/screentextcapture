@@ -8,20 +8,74 @@
 
 import Foundation
 import AppKit
+import CoreGraphics
+
+enum Result<T, ErrorType: Error> {
+    case success(value: T)
+    case failure(error: ErrorType)
+}
 
 class CloudVision {
-    private let googleAPIKey: String
-    var googleURL: URL {
-        return URL(string: "https://vision.googleapis.com/v1/images:annotate?key=\(googleAPIKey)")!
+    private let accessKey: String
+    private var googleURL: URL {
+        return URL(string: "https://vision.googleapis.com/v1/images:annotate?key=\(accessKey)")!
+    }
+    enum ApplicationError: LocalizedError {
+        case failedToBuildRequest
+        case captureCancelled
+        case networkFailed
+        case error(message: String)
+
+        public var errorDescription: String? {
+            switch self {
+            case .error(let message):
+                return message
+            default:
+                return "\(self)"
+            }
+        }
     }
 
     init(accessKey: String) {
-        googleAPIKey = accessKey
+        self.accessKey = accessKey
     }
 
-    func run() {
-        executeScript { file in
-            self.api(file: file)
+    private var canRecordScreen : Bool {
+      guard let windows = CGWindowListCopyWindowInfo([.optionOnScreenOnly], kCGNullWindowID) as? [[String: AnyObject]] else { return false }
+      return windows.allSatisfy({ window in
+          let windowName = window[kCGWindowName as String] as? String
+          let isSharingEnabled = window[kCGWindowSharingState as String] as? Int
+          return windowName != nil || isSharingEnabled == 1
+      })
+    }
+
+    func run(completion: @escaping (Result<String, Error>) -> Void) {
+        if canRecordScreen {
+            capture(completion: completion)
+        } else {
+            let mainDisplay    = CGMainDisplayID()
+
+            let displayBounds  = CGDisplayBounds(mainDisplay)
+            let recordingQueue = DispatchQueue.global(qos: .background)
+
+            // to show permission dialog. but does not work.
+            // https://stackoverflow.com/a/58142253
+            if let stream = CGDisplayStream(dispatchQueueDisplay: mainDisplay, outputWidth: Int(displayBounds.width), outputHeight: Int(displayBounds.height), pixelFormat: Int32(kCVPixelFormatType_32BGRA), properties: nil, queue: recordingQueue, handler: nil) {
+                print(stream)
+            }
+
+        }
+    }
+
+    private func capture(completion: @escaping (Result<String, Error>) -> Void) {
+        execute(executable: "/usr/sbin/screencapture") { result in
+            switch result {
+            case .success(let file):
+                print(file)
+                self.annotate(file: file, completion: completion)
+            case .failure(let error):
+                completion(.failure(error: error))
+            }
         }
     }
 
@@ -36,29 +90,8 @@ class CloudVision {
         return data.base64EncodedString(options: .endLineWithCarriageReturn)
     }
 
-    struct annotateApiPayload: Encodable {
-        let requests: [AnnotateRequest]
+    private func buildRequest(with file: URL) -> URLRequest? {
 
-
-        struct AnnotateRequest: Encodable {
-            let features: [Feature]
-            let image: Image
-            let imageContext: ImageContext
-
-            struct Feature: Encodable {
-                let type: String = "TEXT_DETECTION"
-            }
-            struct Image: Encodable {
-                let content: String
-            }
-
-            struct ImageContext: Encodable {
-                let languageHints: [String]
-            }
-        }
-    }
-
-    func api(file: URL) {
         let imageBase64 = base64Encode(file: file)
         var request = URLRequest(url: googleURL)
               request.httpMethod = "POST"
@@ -76,33 +109,60 @@ class CloudVision {
         ])
 
         let jsonEncoder = JSONEncoder()
-        guard let json = try? jsonEncoder.encode(payload) else { return }
+        guard let json = try? jsonEncoder.encode(payload) else { return nil }
 
-        let filename = getDocumentsDirectory().appendingPathComponent("request.txt")
-        do {
-            try json.write(to: filename)
-        } catch {
-            print(error)
-        }
+//        let filename = getDocumentsDirectory().appendingPathComponent("request.txt")
+//        do {
+//            try json.write(to: filename)
+//        } catch {
+//            print(error)
+//        }
 
         request.httpBody = json
-        DispatchQueue.global().async {
-            self.runRequestOnBackgroundThread(request)
+        return request
+    }
+
+    func annotate(file: URL, completion: @escaping (Result<String, Error>) -> Void) {
+        guard let request = buildRequest(with: file) else {
+            completion(.failure(error: ApplicationError.failedToBuildRequest))
+            return
+        }
+
+        DispatchQueue.global().async { [weak self] in
+            self?.send(request: request, completion: completion)
         }
     }
 
-    func getDocumentsDirectory() -> URL {
+    private func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
     }
 
-    func runRequestOnBackgroundThread(_ request: URLRequest) {
+    private func send(request: URLRequest, completion: @escaping (Result<String, Error>) -> Void) {
         // run the request
         let session = URLSession.shared
 
         let task: URLSessionDataTask = session.dataTask(with: request) { (data, response, error) in
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "")
+            if let error = error {
+                completion(.failure(error: error))
+                return
+            }
+
+            guard let httpResponse = response as? HTTPURLResponse,
+                let data = data else {
+                    completion(.failure(error: ApplicationError.networkFailed))
+                    return
+            }
+
+            let decoder = JSONDecoder()
+
+            guard httpResponse.statusCode < 400 else {
+                do {
+                  let response = try decoder.decode(ErrorResponse.self, from: data)
+                    completion(.failure(error: ApplicationError.error(message: response.error.message)))
+                } catch {
+                    completion(.failure(error: error))
+                }
                 return
             }
 
@@ -113,7 +173,6 @@ class CloudVision {
                 print(error)
             }
 
-            let decoder = JSONDecoder()
             do {
               let response =  try  decoder.decode(AnnotationResponse.self, from: data)
                 guard response.responses.count > 0 else {
@@ -125,6 +184,7 @@ class CloudVision {
                 let app = NSApplication.shared
                 app.terminate(app)
             } catch {
+                print(String(data: data, encoding: .utf8))
                 print(error)
             }
         }
@@ -142,37 +202,8 @@ class CloudVision {
         NSSound(named: "Ping")?.play()
     }
 
-
-
-    struct AnnotationResponse: Decodable {
-        let responses: [Response]
-        struct Response: Decodable {
-            let textAnnotations: [Annotation]?
-            let fullTextAnnotation: FullTextAnnotation?
-            struct Annotation: Decodable {
-                let locale: String?
-                let descrption: String?
-                let boundingPoly: BoundingPoly?
-
-                struct BoundingPoly: Decodable {
-                    let verticles: [Point]?
-
-                    struct Point: Decodable {
-                        let x: Int
-                        let y: Int
-                    }
-                }
-            }
-            struct FullTextAnnotation: Decodable {
-                let text: String
-            }
-        }
-    }
-
-    func executeScript(completion: @escaping (URL) -> Void) {
-        let shellScript = "/usr/sbin/screencapture"
-        // assert(FileManager.default.fileExists(atPath: shellScript))
-        let unixScript = try! NSUserUnixTask(url: URL(fileURLWithPath: shellScript))
+    func execute(executable: String, completion: @escaping (Result<URL, Error>) -> Void) {
+        let unixScript = try! NSUserUnixTask(url: URL(fileURLWithPath: executable))
         let fileUrl = temporaryFileURL()
         let stdout = try! FileHandle(forWritingTo: fileUrl)
         unixScript.standardOutput = stdout
@@ -185,9 +216,15 @@ class CloudVision {
 
         unixScript.execute(withArguments: shellArguments) { error in
             if let error = error {
-                print(error.localizedDescription)
+                completion(.failure(error: error))
             } else {
-                completion(fileUrl)
+                if let attributes = try? FileManager.default.attributesOfItem(atPath: fileUrl.path),
+                    let size = attributes[.size] as? Int,
+                            size > 0 {
+                    completion(.success(value: fileUrl))
+                } else {
+                    completion(.failure(error: ApplicationError.captureCancelled))
+                }
             }
         }
     }
