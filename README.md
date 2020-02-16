@@ -1,5 +1,5 @@
 
-gyat
+screentextcapture
 ====
 
 convert selected area into text by Google [Cloud Vision API](https://cloud.google.com/vision/).
@@ -13,5 +13,5 @@ convert selected area into text by Google [Cloud Vision API](https://cloud.googl
       - `gcloud` command is supposed to be installed `/usr/local/bin`
     - `gcloud auth login` to login to your account to use
     - [enable ML Vision API](https://console.developers.google.com/iam-admin/iam/project)
-- run gyat.app
+- run screentextcapture.app
   - result text will be sent to the clipboard
