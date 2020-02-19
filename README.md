@@ -19,6 +19,7 @@ convert selected area into text by Google [Cloud Vision API](https://cloud.googl
 # build
 
 ```
+carthage checkout --use-ssh
 carthage build --platform Mac
 ```
 

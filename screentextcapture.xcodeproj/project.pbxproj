@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8814FA1123FD5A8A00F376D8 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8814FA1023FD5A8A00F376D8 /* Preferences.swift */; };
 		8889BCE523F9302F0069A82F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8889BCE423F9302F0069A82F /* AppDelegate.swift */; };
 		8889BCE723F9302F0069A82F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8889BCE623F9302F0069A82F /* ViewController.swift */; };
 		8889BCE923F930300069A82F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8889BCE823F930300069A82F /* Assets.xcassets */; };
@@ -47,6 +48,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8814FA1023FD5A8A00F376D8 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		8889BCE123F9302F0069A82F /* screentextcapture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = screentextcapture.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8889BCE423F9302F0069A82F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8889BCE623F9302F0069A82F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				8889BD0A23F954CF0069A82F /* ScreenCapture.swift */,
 				8889BD0823F940D80069A82F /* ScreenCapturePermissionManager.swift */,
 				8889BCE623F9302F0069A82F /* ViewController.swift */,
+				8814FA1023FD5A8A00F376D8 /* Preferences.swift */,
 				8889BD0C23F959A90069A82F /* Annotator.swift */,
 				8889BCE823F930300069A82F /* Assets.xcassets */,
 				8889BCEA23F930300069A82F /* Main.storyboard */,
@@ -268,6 +271,7 @@
 				8889BD0923F940D80069A82F /* ScreenCapturePermissionManager.swift in Sources */,
 				8889BD0323F93CC80069A82F /* KeyStore.swift in Sources */,
 				8889BCE523F9302F0069A82F /* AppDelegate.swift in Sources */,
+				8814FA1123FD5A8A00F376D8 /* Preferences.swift in Sources */,
 				8889BD0B23F954CF0069A82F /* ScreenCapture.swift in Sources */,
 				8889BD0723F93DCF0069A82F /* Api.swift in Sources */,
 				8889BD0523F93DB60069A82F /* CloudVision.swift in Sources */,
@@ -424,6 +428,7 @@
 				CODE_SIGN_ENTITLEMENTS = screentextcapture/screentextcapture.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = A36Y9V3HVF;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -435,7 +440,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = nu.ido.screentextcapture;
+				MARKETING_VERSION = 0.0.2;
+				PRODUCT_BUNDLE_IDENTIFIER = nu.ido.ku.screentextcapture;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -448,6 +454,7 @@
 				CODE_SIGN_ENTITLEMENTS = screentextcapture/screentextcapture.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = A36Y9V3HVF;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -459,7 +466,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = nu.ido.screentextcapture;
+				MARKETING_VERSION = 0.0.2;
+				PRODUCT_BUNDLE_IDENTIFIER = nu.ido.ku.screentextcapture;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};

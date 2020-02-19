@@ -25,7 +25,13 @@ class Annotator {
             case .failure(let error):
                 if let error = error as? ApplicationError,
                     error == .cancelled {
-                    self.exit()
+                    DispatchQueue.main.async {
+                        guard let appDelegate = NSApp.self?.delegate as? AppDelegate else {
+                            self.exit()
+                            return
+                        }
+                        appDelegate.startExitTimer()
+                    }
                 } else {
                     self.notify(error: error, id: UUID().uuidString)
                 }
@@ -38,15 +44,21 @@ class Annotator {
             guard let self = self else { return }
             switch result {
             case .success(let text):
-                self.copy(text)
-                self.notify(text: "Captured successfully")
-                if self.terminateOnCopy {
-                    self.exit()
-                }
+                self.extracted(text: text)
             case .failure(let error):
                 self.notify(error: error, id: Annotator.apiErrorNotificationId)
             }
         })
+    }
+
+    private func extracted(text: String) {
+        copy(text)
+        if Preferences().notifyWhenDone {
+            notify(text: text)
+        }
+        if terminateOnCopy {
+            exit()
+        }
     }
 
     private func notify(error: Error, id: String) {
@@ -55,12 +67,10 @@ class Annotator {
         notification.title = "ScreenTextCapture"
         notification.informativeText = error.localizedDescription
         notification.soundName = "Sosumi"
-        notification.hasActionButton = true
-        notification.actionButtonTitle = "設定"
+        notification.actionButtonTitle = "Preferences"
         notification.hasActionButton = true
         notification.otherButtonTitle = "Close"
         notification.actionButtonTitle = "Show"
-        //        notification.contentImage = NSImage(contentsOfURL: NSURL(string: "https://placehold.it/300")!)
         NSUserNotificationCenter.default.deliver(notification)
     }
 
@@ -70,7 +80,6 @@ class Annotator {
         notification.title = "ScreenTextCapture"
         notification.informativeText = text
         notification.soundName = NSUserNotificationDefaultSoundName
-//        notification.contentImage = NSImage(contentsOfURL: NSURL(string: "https://placehold.it/300")!)
         NSUserNotificationCenter.default.deliver(notification)
     }
 
