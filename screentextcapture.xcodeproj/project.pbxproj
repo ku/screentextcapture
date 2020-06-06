@@ -3,11 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		88065438248C84CC0026F876 /* AppAuthCore in Frameworks */ = {isa = PBXBuildFile; productRef = 88065437248C84CC0026F876 /* AppAuthCore */; };
+		8806543A248C84CC0026F876 /* AppAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 88065439248C84CC0026F876 /* AppAuth */; };
 		8814FA1123FD5A8A00F376D8 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8814FA1023FD5A8A00F376D8 /* Preferences.swift */; };
+		8852544F248CA54000D3BA77 /* RedirectHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8852544E248CA54000D3BA77 /* RedirectHandler.swift */; };
+		88525451248CAE6300D3BA77 /* AccessTokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88525450248CAE6300D3BA77 /* AccessTokenStore.swift */; };
+		88525453248CD00B00D3BA77 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88525452248CD00B00D3BA77 /* Environment.swift */; };
 		8889BCE523F9302F0069A82F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8889BCE423F9302F0069A82F /* AppDelegate.swift */; };
 		8889BCE723F9302F0069A82F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8889BCE623F9302F0069A82F /* ViewController.swift */; };
 		8889BCE923F930300069A82F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8889BCE823F930300069A82F /* Assets.xcassets */; };
@@ -49,6 +54,9 @@
 
 /* Begin PBXFileReference section */
 		8814FA1023FD5A8A00F376D8 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		8852544E248CA54000D3BA77 /* RedirectHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedirectHandler.swift; sourceTree = "<group>"; };
+		88525450248CAE6300D3BA77 /* AccessTokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenStore.swift; sourceTree = "<group>"; };
+		88525452248CD00B00D3BA77 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		8889BCE123F9302F0069A82F /* screentextcapture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = screentextcapture.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8889BCE423F9302F0069A82F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8889BCE623F9302F0069A82F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -73,7 +81,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8806543A248C84CC0026F876 /* AppAuth in Frameworks */,
 				88C8919923F974C3005081EB /* KeychainSwift.framework in Frameworks */,
+				88065438248C84CC0026F876 /* AppAuthCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,6 +126,9 @@
 				8889BD0A23F954CF0069A82F /* ScreenCapture.swift */,
 				8889BD0823F940D80069A82F /* ScreenCapturePermissionManager.swift */,
 				8889BCE623F9302F0069A82F /* ViewController.swift */,
+				88525450248CAE6300D3BA77 /* AccessTokenStore.swift */,
+				88525452248CD00B00D3BA77 /* Environment.swift */,
+				8852544E248CA54000D3BA77 /* RedirectHandler.swift */,
 				8814FA1023FD5A8A00F376D8 /* Preferences.swift */,
 				8889BD0C23F959A90069A82F /* Annotator.swift */,
 				8889BCE823F930300069A82F /* Assets.xcassets */,
@@ -150,6 +163,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8889BCFC23F930310069A82F /* Build configuration list for PBXNativeTarget "screentextcapture" */;
 			buildPhases = (
+				88525455248CD05F00D3BA77 /* Embed environment variables */,
 				8889BCDD23F9302F0069A82F /* Sources */,
 				8889BCDE23F9302F0069A82F /* Frameworks */,
 				8889BCDF23F9302F0069A82F /* Resources */,
@@ -161,6 +175,10 @@
 			dependencies = (
 			);
 			name = screentextcapture;
+			packageProductDependencies = (
+				88065437248C84CC0026F876 /* AppAuthCore */,
+				88065439248C84CC0026F876 /* AppAuth */,
+			);
 			productName = screentextcapture;
 			productReference = 8889BCE123F9302F0069A82F /* screentextcapture.app */;
 			productType = "com.apple.product-type.application";
@@ -211,6 +229,9 @@
 				Base,
 			);
 			mainGroup = 8889BCD823F9302F0069A82F;
+			packageReferences = (
+				88065436248C84CC0026F876 /* XCRemoteSwiftPackageReference "AppAuth-iOS" */,
+			);
 			productRefGroup = 8889BCE223F9302F0069A82F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -241,6 +262,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		88525455248CD05F00D3BA77 /* Embed environment variables */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Embed environment variables";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n./embed_client_identity.rb > screentextcapture/Environment.swift\n";
+			showEnvVarsInLog = 0;
+		};
 		88C8919323F972BB005081EB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -268,11 +308,14 @@
 			files = (
 				8889BD0D23F959A90069A82F /* Annotator.swift in Sources */,
 				8889BCE723F9302F0069A82F /* ViewController.swift in Sources */,
+				8852544F248CA54000D3BA77 /* RedirectHandler.swift in Sources */,
 				8889BD0923F940D80069A82F /* ScreenCapturePermissionManager.swift in Sources */,
+				88525451248CAE6300D3BA77 /* AccessTokenStore.swift in Sources */,
 				8889BD0323F93CC80069A82F /* KeyStore.swift in Sources */,
 				8889BCE523F9302F0069A82F /* AppDelegate.swift in Sources */,
 				8814FA1123FD5A8A00F376D8 /* Preferences.swift in Sources */,
 				8889BD0B23F954CF0069A82F /* ScreenCapture.swift in Sources */,
+				88525453248CD00B00D3BA77 /* Environment.swift in Sources */,
 				8889BD0723F93DCF0069A82F /* Api.swift in Sources */,
 				8889BD0523F93DB60069A82F /* CloudVision.swift in Sources */,
 			);
@@ -429,7 +472,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = A36Y9V3HVF;
+				DEVELOPMENT_TEAM = P882T8EGQ5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -455,7 +498,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = A36Y9V3HVF;
+				DEVELOPMENT_TEAM = P882T8EGQ5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -548,6 +591,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		88065436248C84CC0026F876 /* XCRemoteSwiftPackageReference "AppAuth-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/openid/AppAuth-iOS.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		88065437248C84CC0026F876 /* AppAuthCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88065436248C84CC0026F876 /* XCRemoteSwiftPackageReference "AppAuth-iOS" */;
+			productName = AppAuthCore;
+		};
+		88065439248C84CC0026F876 /* AppAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88065436248C84CC0026F876 /* XCRemoteSwiftPackageReference "AppAuth-iOS" */;
+			productName = AppAuth;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8889BCD923F9302F0069A82F /* Project object */;
 }

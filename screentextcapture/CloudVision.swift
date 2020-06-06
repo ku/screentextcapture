@@ -28,9 +28,9 @@ enum CloudVisionError: LocalizedError {
 
 
 class CloudVision: NSObject {
-    private let accessKey: String
+    private let accessToken: String
     private var googleURL: URL {
-        return URL(string: "https://vision.googleapis.com/v1/images:annotate?key=\(accessKey)")!
+        return URL(string: "https://vision.googleapis.com/v1/images:annotate")!
     }
     enum ApplicationError: LocalizedError {
         case failedToBuildRequest
@@ -50,8 +50,8 @@ class CloudVision: NSObject {
         }
     }
 
-    init(accessKey: String) {
-        self.accessKey = accessKey
+    init(accessToken: String) {
+        self.accessToken = accessToken
     }
 
     func annotate(file: URL, completion: @escaping (Result<String, Error>) -> Void) {
@@ -87,9 +87,11 @@ class CloudVision: NSObject {
 
     private func buildRequest(with base64Text: String) -> URLRequest? {
         var request = URLRequest(url: googleURL)
-              request.httpMethod = "POST"
-              request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-              request.addValue(Bundle.main.bundleIdentifier ?? "", forHTTPHeaderField: "X-Ios-Bundle-Identifier")
+        request.httpMethod = "POST"
+
+        request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.addValue("application/jsonl charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.addValue(Bundle.main.bundleIdentifier ?? "", forHTTPHeaderField: "X-Ios-Bundle-Identifier")
 
         let payload = annotateApiPayload(requests: [
             .init(

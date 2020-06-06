@@ -14,31 +14,40 @@ enum ApplicationError: Error {
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    let annotator: Annotator = Annotator()
+    var annotator: Annotator?
+    var accessTokenStore: AccessTokenStore?
+
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
 //        NSApp.self.hide(nil)
 
         NSUserNotificationCenter.default.delegate = self
 
-        if let _ = KeyStore().get() {
-            annotator.capture()
-        } else {
-            show()
-        }
+        let accessTokenStore = AccessTokenStore()
+        accessTokenStore.perform(action: { [weak self] result in
+            guard let strongSelf = self else { return }
+            switch result {
+            case .success(let token):
+                let annotator = Annotator(accessToken: token)
+                annotator.capture()
+                strongSelf.annotator = annotator
+            case .failure(let error):
+                strongSelf.show(error: error)
+            }
+        })
+        self.accessTokenStore = accessTokenStore
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
 
-
     @IBAction private func preferences(_ sender: Any) {
         exitTimer?.invalidate()
-        show()
+        show(error: nil)
     }
 
-    private func show() {
+    private func show(error: Error?) {
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
         guard let mainWC = storyboard.instantiateController(withIdentifier: "MainWindowController") as? NSWindowController else {
             fatalError("Error getting main window controller")

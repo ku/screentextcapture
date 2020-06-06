@@ -10,9 +10,11 @@ import AppKit
 
 class Annotator {
     static let apiErrorNotificationId = "apiErrorNotificationId"
-
-    let terminateOnCopy: Bool
-    init(terminateOnCopy: Bool = true) {
+    
+    private let accessToken: String
+    private let terminateOnCopy: Bool
+    init(accessToken: String, terminateOnCopy: Bool = true) {
+        self.accessToken = accessToken
         self.terminateOnCopy = terminateOnCopy
     }
 
@@ -39,8 +41,7 @@ class Annotator {
         }
     }
     private func annotate(file: URL) {
-        guard let accessKey = KeyStore().get() else { return }
-        CloudVision(accessKey: accessKey).annotate(file: file, completion: { [weak self] result in
+        CloudVision(accessToken: accessToken).annotate(file: file, completion: { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let text):
