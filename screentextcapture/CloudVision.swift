@@ -15,8 +15,15 @@ enum Result<T, ErrorType: Error> {
 }
 
 
-enum CloudVisionError: Error {
-    case textNotFound
+enum CloudVisionError: LocalizedError {
+    case textNotFound(rawText: String?)
+
+    var errorDescription: String? {
+        switch self {
+        case .textNotFound(let rawText):
+            return "CloundVisionError.textNotFound \(rawText ?? "")"
+        }
+    }
 }
 
 
@@ -138,7 +145,7 @@ class CloudVision: NSObject {
             do {
               let response = try decoder.decode(AnnotationResponse.self, from: data)
                 guard let text = response.responses.first?.fullTextAnnotation?.text else {
-                    completion(.failure(error: CloudVisionError.textNotFound))
+                    completion(.failure(error: CloudVisionError.textNotFound(rawText: String(data: data, encoding: .utf8))))
                     return
                 }
                 completion(.success(value: text))

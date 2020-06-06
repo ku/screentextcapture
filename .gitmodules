@@ -1,0 +1,3 @@
+[submodule "Carthage/Checkouts/keychain-swift"]
+	path = Carthage/Checkouts/keychain-swift
+	url = ssh://git@github.com/evgenyneu/keychain-swift.git
