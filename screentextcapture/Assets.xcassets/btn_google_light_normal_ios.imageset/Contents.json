@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "btn_google_light_normal_ios@3x.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
