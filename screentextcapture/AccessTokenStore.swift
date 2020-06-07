@@ -17,6 +17,11 @@ private let kRedirectURI = "https://localhost/"
 class AccessTokenStore: NSObject {
     typealias AccessToken = String
 
+    enum AccountType: String {
+        case oAuth
+        case rawToken
+    }
+
     private var redirectHandler: RedirectHTTPHandler?
     private var state: OIDAuthState?
 
@@ -31,6 +36,21 @@ class AccessTokenStore: NSObject {
         super.init()
         state = KeyStore().getAuthState()
     }
+
+    var accountType: AccountType {
+        get {
+            guard let typeString = UserDefaults.standard.string(forKey: "AccountType"),
+                let type = AccountType(rawValue: typeString) else {
+                    return .oAuth
+            }
+            return type
+        }
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: "AccountType")
+            UserDefaults.standard.synchronize()
+        }
+    }
+
 
     var hasValidToken: Bool {
         return false
