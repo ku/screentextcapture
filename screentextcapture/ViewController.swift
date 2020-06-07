@@ -28,12 +28,10 @@ class ViewController: NSViewController {
 
         setupUI()
 
-        tokenStore.perform(action: { result in
+        tokenStore.fetchUserInfo(completion: { [weak self] result in
             switch result {
-            case .success:
-                
-
-
+            case .success(let userInfo):
+                break
 //                NSRunningApplication.current.activate(options: .init(arrayLiteral: .activateAllWindows, .activateIgnoringOtherApps))
             case .failure(let error):
                 // show alert
@@ -66,7 +64,7 @@ class ViewController: NSViewController {
     @IBAction private func didTapSignInWithGoogle(sender: Any) {
 
 
-//        tokenStore.perform(action: <#T##(Result<AccessTokenStore.AccessToken, Error>) -> Void#>)
+        tokenStore.perform(action: { _ in })
     }
 
     @IBAction private func didTapHelp(sender: Any) {
