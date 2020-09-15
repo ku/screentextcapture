@@ -101,7 +101,7 @@ class AccessTokenStore: NSObject {
     private func found(configuration: OIDServiceConfiguration, redirectURI: URL, completion: @escaping (Result<AccessToken, Error>) -> Void) {
         let request = OIDAuthorizationRequest(
             configuration: configuration,
-            clientId: Environment.kGcpClientId, clientSecret: Environment.kGcpClientSecret,
+            clientId: Environment.clientId, clientSecret: Environment.clientSecret,
             scopes: [
                 "https://www.googleapis.com/auth/userinfo.email",
                 "https://www.googleapis.com/auth/cloud-vision"

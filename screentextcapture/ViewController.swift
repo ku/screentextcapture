@@ -17,6 +17,7 @@ class ViewController: NSViewController {
 
     @IBOutlet private var accountTypeOAuthButton: NSButton!
     @IBOutlet private var accountTypeAccessTokenButton: NSButton!
+    @IBOutlet private var gridView: NSGridView!
 
     private lazy var tokenStore: AccessTokenStore = {
         (NSApplication.shared.delegate as! AppDelegate).accessTokenStore!
@@ -88,11 +89,17 @@ class ViewController: NSViewController {
     }
 
     private func setupUI() {
-        let image = NSImage(imageLiteralResourceName: "btn_google_light_normal_ios")
-        image.capInsets = .init(top: 4, left: 34, bottom: 4, right: 4)
-        signInWithGoogleButton.image = image
-        signInWithGoogleButton.imageScaling = .scaleAxesIndependently
-        updateRadioButtonStatus(accountType: tokenStore.accountType)
+        if Environment.mode == .oauth {
+            let image = NSImage(imageLiteralResourceName: "btn_google_light_normal_ios")
+            image.capInsets = .init(top: 4, left: 34, bottom: 4, right: 4)
+            signInWithGoogleButton.image = image
+            signInWithGoogleButton.imageScaling = .scaleAxesIndependently
+            updateRadioButtonStatus(accountType: tokenStore.accountType)
+        } else {
+            (0...4).forEach { _ in
+                self.gridView.removeRow(at: 0)
+            }
+        }
     }
 
     private func updateRadioButtonStatus(accountType: AccessTokenStore.AccountType) {

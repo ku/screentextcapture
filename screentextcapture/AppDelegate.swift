@@ -23,19 +23,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         NSUserNotificationCenter.default.delegate = self
 
-        let accessTokenStore = AccessTokenStore()
-        accessTokenStore.perform(action: { [weak self] result in
-            guard let strongSelf = self else { return }
-            switch result {
-            case .success(let token):
-                let annotator = Annotator(accessToken: token)
-                annotator.capture()
-                strongSelf.annotator = annotator
-            case .failure(let error):
-                strongSelf.show(error: error)
-            }
-        })
-        self.accessTokenStore = accessTokenStore
+
+        if Environment.mode == .oauth {
+            let accessTokenStore = AccessTokenStore()
+            accessTokenStore.perform(action: { [weak self] result in
+                guard let strongSelf = self else { return }
+                switch result {
+                case .success(let token):
+                    let annotator = Annotator(token: .oauth(token: token))
+                    annotator.capture()
+                    strongSelf.annotator = annotator
+                case .failure(let error):
+                    strongSelf.show(error: error)
+                }
+            })
+            self.accessTokenStore = accessTokenStore
+        } else {
+            let annotator = Annotator(token: .accessToken(token: Environment.clientSecret))
+            annotator.capture()
+            self.annotator = annotator
+        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

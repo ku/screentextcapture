@@ -1,5 +1,5 @@
 xcuserdata
 Carthage
 xcshareddata
-.env
+.env*
 screentextcapture/Environment.swift

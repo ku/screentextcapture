@@ -24,6 +24,7 @@
 		8889BD0923F940D80069A82F /* ScreenCapturePermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8889BD0823F940D80069A82F /* ScreenCapturePermissionManager.swift */; };
 		8889BD0B23F954CF0069A82F /* ScreenCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8889BD0A23F954CF0069A82F /* ScreenCapture.swift */; };
 		8889BD0D23F959A90069A82F /* Annotator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8889BD0C23F959A90069A82F /* Annotator.swift */; };
+		88A1750C25110B5600993EBB /* Environment+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A1750B25110B5600993EBB /* Environment+Extension.swift */; };
 		88C8919923F974C3005081EB /* KeychainSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88C8919823F974C3005081EB /* KeychainSwift.framework */; };
 		88C8919A23F974C3005081EB /* KeychainSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 88C8919823F974C3005081EB /* KeychainSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -73,6 +74,7 @@
 		8889BD0823F940D80069A82F /* ScreenCapturePermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCapturePermissionManager.swift; sourceTree = "<group>"; };
 		8889BD0A23F954CF0069A82F /* ScreenCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCapture.swift; sourceTree = "<group>"; };
 		8889BD0C23F959A90069A82F /* Annotator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Annotator.swift; sourceTree = "<group>"; };
+		88A1750B25110B5600993EBB /* Environment+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment+Extension.swift"; sourceTree = "<group>"; };
 		88C8919823F974C3005081EB /* KeychainSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainSwift.framework; path = Carthage/Build/Mac/KeychainSwift.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -128,6 +130,7 @@
 				8889BCE623F9302F0069A82F /* ViewController.swift */,
 				88525450248CAE6300D3BA77 /* AccessTokenStore.swift */,
 				88525452248CD00B00D3BA77 /* Environment.swift */,
+				88A1750B25110B5600993EBB /* Environment+Extension.swift */,
 				8852544E248CA54000D3BA77 /* RedirectHandler.swift */,
 				8814FA1023FD5A8A00F376D8 /* Preferences.swift */,
 				8889BD0C23F959A90069A82F /* Annotator.swift */,
@@ -278,7 +281,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n./embed_client_identity.rb > screentextcapture/Environment.swift\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nmake\n";
 			showEnvVarsInLog = 0;
 		};
 		88C8919323F972BB005081EB /* ShellScript */ = {
@@ -313,6 +316,7 @@
 				88525451248CAE6300D3BA77 /* AccessTokenStore.swift in Sources */,
 				8889BD0323F93CC80069A82F /* KeyStore.swift in Sources */,
 				8889BCE523F9302F0069A82F /* AppDelegate.swift in Sources */,
+				88A1750C25110B5600993EBB /* Environment+Extension.swift in Sources */,
 				8814FA1123FD5A8A00F376D8 /* Preferences.swift in Sources */,
 				8889BD0B23F954CF0069A82F /* ScreenCapture.swift in Sources */,
 				88525453248CD00B00D3BA77 /* Environment.swift in Sources */,

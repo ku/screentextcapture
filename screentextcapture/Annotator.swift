@@ -8,13 +8,18 @@
 
 import AppKit
 
+enum AuthorizationToken {
+    case oauth(token: String)
+    case accessToken(token: String)
+}
+
 class Annotator {
     static let apiErrorNotificationId = "apiErrorNotificationId"
     
-    private let accessToken: String
+    private let token: AuthorizationToken
     private let terminateOnCopy: Bool
-    init(accessToken: String, terminateOnCopy: Bool = true) {
-        self.accessToken = accessToken
+    init(token: AuthorizationToken, terminateOnCopy: Bool = true) {
+        self.token = token
         self.terminateOnCopy = terminateOnCopy
     }
 
@@ -41,7 +46,7 @@ class Annotator {
         }
     }
     private func annotate(file: URL) {
-        CloudVision(accessToken: accessToken).annotate(file: file, completion: { [weak self] result in
+        CloudVision(token: token).annotate(file: file, completion: { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let text):

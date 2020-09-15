@@ -342,6 +342,7 @@
                         <outlet property="accessTokenTextField" destination="gy8-wE-3qc" id="O5d-hI-epI"/>
                         <outlet property="accountTypeAccessTokenButton" destination="xZS-ow-GbV" id="dC0-iz-IUK"/>
                         <outlet property="accountTypeOAuthButton" destination="vBe-lG-xKO" id="woZ-Xe-t9G"/>
+                        <outlet property="gridView" destination="o35-J3-xEr" id="GFd-hi-Q50"/>
                         <outlet property="notifyWhenDoneButton" destination="VAZ-pY-qco" id="z42-PU-bfa"/>
                         <outlet property="signInWithGoogleButton" destination="0ye-Wt-1aE" id="6m4-X6-PjA"/>
                     </connections>

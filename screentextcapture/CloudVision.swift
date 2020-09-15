@@ -28,9 +28,16 @@ enum CloudVisionError: LocalizedError {
 
 
 class CloudVision: NSObject {
-    private let accessToken: String
+    private let token: AuthorizationToken
     private var googleURL: URL {
-        return URL(string: "https://vision.googleapis.com/v1/images:annotate")!
+        var components = URLComponents(string: "https://vision.googleapis.com/v1/images:annotate")!
+
+        if case .accessToken(let token) = token {
+            var queryItems = components.queryItems ?? []
+            queryItems.append(.init(name: "key", value: token))
+            components.queryItems = queryItems
+        }
+        return components.url!
     }
     enum ApplicationError: LocalizedError {
         case failedToBuildRequest
@@ -50,8 +57,8 @@ class CloudVision: NSObject {
         }
     }
 
-    init(accessToken: String) {
-        self.accessToken = accessToken
+    init(token: AuthorizationToken) {
+        self.token = token
     }
 
     func annotate(file: URL, completion: @escaping (Result<String, Error>) -> Void) {
@@ -69,10 +76,7 @@ class CloudVision: NSObject {
         case .failure(let error):
             completion(.failure(error: error))
         }
-
     }
-
-
 
     private func base64Encode(file: URL) -> Result<String, ApplicationError> {
         guard let data = try? Data(contentsOf: file) else { return .failure(error: .capturedImageReadError) }
@@ -88,10 +92,12 @@ class CloudVision: NSObject {
     private func buildRequest(with base64Text: String) -> URLRequest? {
         var request = URLRequest(url: googleURL)
         request.httpMethod = "POST"
-
-        request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         request.addValue("application/jsonl charset=utf-8", forHTTPHeaderField: "Content-Type")
         request.addValue(Bundle.main.bundleIdentifier ?? "", forHTTPHeaderField: "X-Ios-Bundle-Identifier")
+
+        if case .oauth(let token) = token {
+            request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
 
         let payload = annotateApiPayload(requests: [
             .init(
