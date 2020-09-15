@@ -12,7 +12,7 @@ import AppAuth
 
 class KeyStore {
     enum Property: String {
-        case authState
+        case authState = "screentextcapture.authState"
         case rawAccessToken
     }
 
